@@ -8,7 +8,7 @@ async def damage(context, num: int):
     celebrate = False
     with open('rejections.txt', 'r') as f:
         rejections = int(f.readlines()[-1].strip('\n'))
-    if num < 1000:
+    if num < 100:
         for r in range(num):
             rejections += 1
             if rejections % 100 == 0:
@@ -27,9 +27,13 @@ async def damage(context, num: int):
     with open('rejections.txt', 'r') as f:
         rejections = int(f.readlines()[-1].strip('\n'))
     rejections -= num
+    if rejections < 0:
+        rejections = 0
+        await context.reply(f"Rejection-sama cannot give you negative rejections, much as Rejection-sama would like... you are now at 0 rejections.")
+    else:
+        await context.reply(f"Rejection-sama has removed {num} rejections!  You are now at {rejections} rejections.")
     with open('rejections.txt', 'w+') as f:
         f.write(str(rejections) + '\n')
-    await context.reply(f"Rejection-sama has removed {num} rejections!  You are now at {rejections} rejections.")
 
 @bot.event
 async def on_ready():
