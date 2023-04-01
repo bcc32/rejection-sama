@@ -24,14 +24,18 @@ async def damage(context, num: int):
 
 @bot.command(name="oops")
 async def damage(context, num: int):
-    global rejections
+    with open('rejections.txt', 'r') as f:
+        rejections = int(f.readlines()[-1].strip('\n'))
     rejections -= num
+    with open('rejections.txt', 'w+') as f:
+        f.write(str(rejections) + '\n')
     await context.reply(f"Rejection-sama has removed {num} rejections!  You are now at {rejections} rejections.")
 
 @bot.event
 async def on_ready():
     print(f'Rejection-sama has been summoned!')
 
-TOKEN = "MTA4ODU0MjUxNTM0NDQ0NTUyMA.GQJPxL.l8JGZuhGhN5eALmjODFle5lGW2QNJaX5B4yJNw"
+with open('../rejection_token_file.txt', 'r') as f:
+    TOKEN = f.read()
 bot.run(TOKEN)
 
