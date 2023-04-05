@@ -11,7 +11,7 @@ async def damage(context, num: int):
     if num < 100:
         for r in range(num):
             rejections += 1
-            if rejections % 100 == 0:
+            if rejections % 25 == 0:
                 celebrate = True
         with open('rejections.txt', 'w+') as f:
             f.write(str(rejections) + '\n')
