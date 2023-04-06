@@ -39,7 +39,10 @@ async def damage(context, num: int):
 async def on_ready():
     print(f'Rejection-sama has been summoned!')
 
-with open('../rejection_token_file.txt', 'r') as f:
-    TOKEN = f.read()
-bot.run(TOKEN)
+def main():
+    with open('./rejection_token_file.txt', 'r') as f:
+        TOKEN = f.read()
+    bot.run(TOKEN)
 
+if __name__ == '__main__':
+    main()

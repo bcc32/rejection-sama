@@ -1,0 +1,17 @@
+[project]
+name = "rejection-sama"
+description = "rejection-sama bot"
+version = "0.1.0"
+authors = [
+    { name = "Devany West", email = "devanywest314@gmail.com" }
+]
+dependencies = [
+    "discord.py"
+]
+
+[project.scripts]
+rejection-sama = "rejection_sama:main"
+
+[build-system]
+build-backend = "flit_core.buildapi"
+requires = ["flit_core >=3.2,<4"]
