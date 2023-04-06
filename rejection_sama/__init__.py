@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+import os
 
 bot = commands.Bot(command_prefix='!', intents=discord.Intents.all())
 
@@ -40,7 +41,7 @@ async def on_ready():
     print(f'Rejection-sama has been summoned!')
 
 def main():
-    with open('./rejection_token_file.txt', 'r') as f:
+    with open(os.environ.get('DISCORD_TOKEN_FILE', './rejection_token_file.txt'), 'r') as f:
         TOKEN = f.read()
     bot.run(TOKEN)
 
