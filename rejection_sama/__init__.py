@@ -4,17 +4,19 @@ import os
 
 bot = commands.Bot(command_prefix='!', intents=discord.Intents.all())
 
+rejections_file = None
+
 @bot.command(name="damage")
 async def damage(context, num: int):
     celebrate = False
-    with open('rejections.txt', 'r') as f:
+    with open(rejections_file, 'r') as f:
         rejections = int(f.readlines()[-1].strip('\n'))
     if num < 100:
         for r in range(num):
             rejections += 1
             if rejections % 25 == 0:
                 celebrate = True
-        with open('rejections.txt', 'w+') as f:
+        with open(rejections_file, 'w+') as f:
             f.write(str(rejections) + '\n')
         if celebrate == True:
             await context.reply(f"You are at {rejections} rejections, and that means: congratulations, you've reached another 100 rejections!  Rejection-sama demands that you go celebrate!")
@@ -25,7 +27,7 @@ async def damage(context, num: int):
 
 @bot.command(name="oops")
 async def damage(context, num: int):
-    with open('rejections.txt', 'r') as f:
+    with open(rejections_file, 'r') as f:
         rejections = int(f.readlines()[-1].strip('\n'))
     rejections -= num
     if rejections < 0:
@@ -33,7 +35,7 @@ async def damage(context, num: int):
         await context.reply(f"Rejection-sama cannot give you negative rejections, much as Rejection-sama would like... you are now at 0 rejections.")
     else:
         await context.reply(f"Rejection-sama has removed {num} rejections!  You are now at {rejections} rejections.")
-    with open('rejections.txt', 'w+') as f:
+    with open(rejections_file, 'w+') as f:
         f.write(str(rejections) + '\n')
 
 @bot.event
@@ -43,6 +45,8 @@ async def on_ready():
 def main():
     with open(os.environ.get('DISCORD_TOKEN_FILE', './rejection_token_file.txt'), 'r') as f:
         TOKEN = f.read()
+    global rejections_file
+    rejections_file = os.environ.get('REJECTIONS_FILE', './rejections.txt')
     bot.run(TOKEN)
 
 if __name__ == '__main__':
