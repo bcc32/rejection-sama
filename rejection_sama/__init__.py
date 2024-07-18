@@ -64,7 +64,6 @@ async def goal(context, num: int):
     else:
         to_go = num - int(rejections-reset) % num
         await context.reply(f"Your goal is now to reach another {num} rejections, you have {to_go} rejections left to your next goal!")
-    # TODO: reset needs to equal last celebration!!!
     rejections_df.loc[rejections_df['Guild'] == guild_id, 'Goal'] = num
     rejections_df.to_csv(rejections_file, index=False)    
 
@@ -82,7 +81,13 @@ def get_guild_info(context):
             to_df[i] = []
         rejections_df = pd.DataFrame(to_df)
     if guild_id not in rejections_df['Guild'].values:
-        guild_to_append = pd.DataFrame({col_names[0]:[guild_id],col_names[1]:[default_goal],col_names[2]:[0],col_names[3]:[0],col_names[4]:[0]})
+        guild_to_append = pd.DataFrame({
+            'Guild': [guild_id],
+            'Goal': [default_goal],
+            'Rejections': [0],
+            'Celebrations': [0],
+            'Reset': [0]
+         })
         rejections_df = pd.concat([rejections_df,guild_to_append],names=col_names) 
         rejections_df.to_csv(rejections_file, index=False)
     guild_loc = rejections_df['Guild'] == guild_id 
