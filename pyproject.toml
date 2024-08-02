@@ -6,7 +6,8 @@ authors = [
     { name = "Devany West", email = "devanywest314@gmail.com" }
 ]
 dependencies = [
-    "discord.py"
+    "discord.py",
+    "pandas"
 ]
 
 [project.scripts]
