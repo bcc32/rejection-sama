@@ -11,7 +11,11 @@ col_names = ['Guild','Goal','Rejections','Celebrations','Reset']
 default_goal = 25
 
 # record a rejection, and celebrate if you've hit your goal
-@bot.command(name="damage", brief="To log a rejection, use the command *!damage 1* for one rejection, or change the number for multiple.", description="To log a rejection, use the command *!damage 1* for one rejection, or change the number for multiple.")
+@bot.command(
+    name="damage", 
+    brief="To log a rejection, use the command *!damage 1* for one rejection, or change the number for multiple.", 
+    description="To log a rejection, use the command *!damage 1* for one rejection, or change the number for multiple."
+)
 async def damage(context, num: int):
     celebrate = False
     rejections_df, guild_id, goal, rejections, celebrations, reset = get_guild_info(context) 
@@ -33,7 +37,10 @@ async def damage(context, num: int):
     rejections_df.to_csv(rejections_file, index=False)
 
 # remove rejections if you accidentally on purpose add too many 
-@bot.command(name="oops", brief="To remove a rejection, use the command *!oops 1* to remove one rejection, or change the number for multiple.", description="To remove a rejection, use the command *!oops 1* to remove one rejection, or change the number for multiple.")
+@bot.command(name="oops", 
+    brief="To remove a rejection, use the command *!oops 1* to remove one rejection, or change the number for multiple.", 
+    description="To remove a rejection, use the command *!oops 1* to remove one rejection, or change the number for multiple."
+)
 async def oops(context, num: int):
     rejections_df, guild_id, goal, rejections, celebrations, reset = get_guild_info(context)
     rejections -= num
@@ -46,7 +53,10 @@ async def oops(context, num: int):
     rejections_df.to_csv(rejections_file, index=False)
 
 # print the current number of rejections and the number of rejections left to the goal
-@bot.command(name="progress",brief="To check the status of your rejections and how close you are to your goal, use the command *!progress*.",description="To check the status of your rejections and how close you are to your goal, use the command *!progress*.")
+@bot.command(name="progress",
+    brief="To check the status of your rejections and how close you are to your goal, use the command *!progress*.",
+    description="To check the status of your rejections and how close you are to your goal, use the command *!progress*."
+)
 async def progress(context):
     rejections_df, guild_id, goal, rejections, celebrations, reset = get_guild_info(context)
     to_go = goal - int(rejections-reset) % goal
@@ -54,7 +64,10 @@ async def progress(context):
 
 # set goal number of rejections 
 # if the new goal means a celebration has been reached, a celebration will be prompted, but only one
-@bot.command(name="goal", brief="To change your goal, use the command *!goal 50* to set your goal to 50 rejections, or use another number.", description="To change your goal, use the command *!goal 50* to set your goal to 50 rejections, or use another number.  The goal is always counted as the number of rejections from your last celebration.  If you change your goal while progressing towards your next celebration and the new goal is lower than the current number of rejections since that last celebration, you'll immediately earn a celebration and then start counting again from there.  For instance, if you are trying to get to 10, and then set your goal to 5 when you are at 7, you earn a celebration at 7 and will earn your next celebration at 12.")
+@bot.command(name="goal", 
+    brief="To change your goal, use the command *!goal 50* to set your goal to 50 rejections, or use another number.", 
+    description="To change your goal, use the command *!goal 50* to set your goal to 50 rejections, or use another number.  The goal is always counted as the number of rejections from your last celebration.  If you change your goal while progressing towards your next celebration and the new goal is lower than the current number of rejections since that last celebration, you'll immediately earn a celebration and then start counting again from there.  For instance, if you are trying to get to 10, and then set your goal to 5 when you are at 7, you earn a celebration at 7 and will earn your next celebration at 12."
+)
 async def goal(context, num: int):
     rejections_df, guild_id, goal, rejections, celebrations, reset = get_guild_info(context)
     if int((rejections-reset)/goal) < int((rejections-reset)/num):
