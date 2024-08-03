@@ -24,13 +24,12 @@ async def damage(context, num: int):
         if int(rejections-reset) % goal == 0:
             celebrate = True
     rejections_df.loc[rejections_df['Guild'] == guild_id, 'Rejections'] = rejections
-    rejections_df.to_csv(rejections_file, index=False)
     if celebrate == True:
         reset = rejections
         celebrations += 1
         rejections_df.loc[rejections_df['Guild'] == guild_id, 'Reset'] = reset
         rejections_df.loc[rejections_df['Guild'] == guild_id, 'Celebrations'] = celebrations
-        await context.reply(f"You are at {rejections} total rejections, and that means: congratulations, you've reached another {goal} rejections!  Rejection-sama demands that you go celebrate!")
+        await context.reply(f"You are at {rejections} total rejections, and that means: :tada: :partying_face: congratulations, you've reached another {goal} rejections! :partying_face: :tada:  Rejection-sama demands that you go celebrate!")
     else:
         await context.reply(f"Rejection-sama thanks you for the rejections!  You're at {rejections} total rejections.") 
     rejections_df.loc[rejections_df['Guild'] == guild_id, 'Rejections'] = rejections
