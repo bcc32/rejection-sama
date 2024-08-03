@@ -91,7 +91,7 @@ def get_guild_info(context):
         to_df = {}
         for i in col_names:
             to_df[i] = []
-        rejections_df = pd.DataFrame(to_df)
+        rejections_df = pd.DataFrame(to_df, dtype=int)
     if guild_id not in rejections_df['Guild'].values:
         guild_to_append = pd.DataFrame({
             'Guild': [guild_id],
